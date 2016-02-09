@@ -111,10 +111,13 @@ run_tag_build() {
   set +e
   for dir in /tmp/staged-recipes/recipes/*;
   do
-      echo $dir;
-      CONDA_CMD="conda-build $dir --python=3.5";
-      echo "CONDA_CMD is --> $CONDA_CMD";
-      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-tag `$CONDA_CMD --output`;
+      for version in 3.4 3.5
+      do
+          echo $dir
+          CONDA_CMD="conda-build $dir --python=$version"
+          echo "CONDA_CMD is --> $CONDA_CMD"
+          $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
+    done
   done
 }
 
